@@ -2,18 +2,46 @@ package conta;
 
 import java.util.Scanner;
 
+import conta.model.Conta;
+import conta.util.Cores;
+
 public class Menu {
 	public static void main(String[] args) {
 
 		Scanner leia = new Scanner(System.in);
 
+		//Criamor o Objeto Conta c1
+		Conta c1 = new Conta(1, 123, 1, "Dener Verçosa", 30000.0f);
+		
+		//Visualizamos os dados da Conta c1
+		c1.visualizar();
+		
+		//Visualizamos o Saldo da Conta c1
+		c1.setSaldo(35000.0f);
+		
+		System.out.println("\n" + c1.getSaldo());
+		
+		Conta c2 = new Conta(1, 123, 1, "Erica", 50000.0f);
+		c2.visualizar();
+		
+		//Visualizamos o dadosda Conta c1
+		c1.visualizar();
+		
+		//Sacamos da Conta c1
+		c1.sacar(1000.0f);
+		
+		System.out.println("\n" + c1.getSaldo());
+		
+		
+		
+		
 		int opcao;
 
 		while (true) {
 
-			System.out.println("*****************************************************");
+			System.out.println(Cores.TEXT_YELLOW + Cores.ANSI_BLACK_BACKGROUND + "*****************************************************");
 			System.out.println("                                                     ");
-			System.out.println("                BANCO DA BIQUEIRA                   ");
+			System.out.println("                BANCO DOS DEV'S                   ");
 			System.out.println("                                                     ");
 			System.out.println("*****************************************************");
 			System.out.println("                                                     ");
@@ -29,12 +57,12 @@ public class Menu {
 			System.out.println("                                                     ");
 			System.out.println("*****************************************************");
 			System.out.println("Entre com a opção desejada:                          ");
-			System.out.println("                                                     ");
+			System.out.println("                                                     " + Cores.TEXT_RESET);
 
 			opcao = leia.nextInt();
 
 			if (opcao == 9) {
-				System.out.println("\nA cada dia de atraso, 1 dedo a menos - Banco da Biqueira"
+				System.out.println("\nA Banco dos Dev's - Tech e Inovação a um click de você!"
 						+ "!!!");
 				leia.close();
 				System.exit(0);
