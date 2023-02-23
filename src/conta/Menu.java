@@ -12,48 +12,13 @@ public class Menu {
 	public static void main(String[] args) {
 
 		Scanner leia = new Scanner(System.in);
-
-		//Criamor o Objeto Conta c1
-		Conta c1 = new Conta(1, 123, 1, "Dener Verçosa", 30000.0f);
-		
-		//Visualizamos os dados da Conta c1
-		c1.visualizar();
-		
-		//Visualizamos o Saldo da Conta c1
-		c1.setSaldo(35000.0f);
-		
-		System.out.println("\n" + c1.getSaldo());
-		
-		Conta c2 = new Conta(1, 123, 1, "Erica", 50000.0f);
-		c2.visualizar();
-		
-		//Visualizamos o dadosda Conta c1
-		c1.visualizar();
-		
-		//Sacamos da Conta c1
-		c1.sacar(1000.0f);
-		
-		System.out.println("\n" + c1.getSaldo());
 		
 		Conta c3 = new ContaCorrente(3, 123, 1, "Vitoria", 30000.0f, 1000.0f);
-		
-		c3.visualizar();
-		
-		c3.sacar(32000);
-		
 		c3.visualizar();
 		
 		ContaPoupanca cp1 = new ContaPoupanca(2,123,2, "Lucas Silva",40000.0f,19);
-		
 		cp1.visualizar();
 		
-		cp1.sacar(10000.0f);
-		
-		cp1.visualizar();
-		
-		cp1.depositar(5000.0f);
-		
-		cp1.visualizar();
 		
 		int opcao, numero, agencia, tipo, aniversario, numeroDestino;
 		float saldo, limite, valor;
