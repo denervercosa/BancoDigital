@@ -4,16 +4,18 @@ import conta.model.Conta;
 import conta.repository.ContaRepository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ContaController implements ContaRepository {
 
     private ArrayList<Conta> listaContas = new ArrayList<>();
+   int numero = 1;
     @Override
     public void procurarPorNumero(int numero) {
-        var conta = buscarNaCollection(numero);
+        Optional<Conta> conta = buscarNaCollection(numero);
 
-        if (conta != null) {
-            conta.visualizar();
+        if (conta.isPresent()) {
+            conta.get().visualizar();
         } else {
             System.out.println("A Conta número: " + numero + " não foi encontrada!");
         }
@@ -34,10 +36,10 @@ public class ContaController implements ContaRepository {
 
     @Override
     public void atualizar(Conta conta) {
-        var buscaConta = buscarNaCollection(conta.getNumero());
+    	Optional<Conta> buscaConta = buscarNaCollection(numero);
 
-        if (buscaConta != null) {
-            listaContas.set(listaContas.indexOf(buscaConta), conta);
+        if (buscaConta.isPresent()) {
+            listaContas.set(listaContas.indexOf(buscaConta.get()), conta);
             System.out.println("A Conta número: " + conta.getNumero() + " foi atualizada!");
         } else {
             System.out.println("A Conta número: " + conta.getNumero() + " não foi encontrada!");
@@ -46,10 +48,10 @@ public class ContaController implements ContaRepository {
 
     @Override
     public void deletar(int numero) {
-        var conta = buscarNaCollection(numero);
+    	Optional<Conta> conta = buscarNaCollection(numero);
 
-        if (conta != null) {
-            if (listaContas.remove(conta)) {
+        if (conta.isPresent()) {
+            if (listaContas.remove(conta.getClass())) {
                 System.out.println("A Conta número: " + numero + " foi excluída!");
             }
         } else {
@@ -60,29 +62,66 @@ public class ContaController implements ContaRepository {
     @Override
     public void sacar(int numero, float valor) {
 
+    	var conta = buscarNaCollection(numero);
+
+        if (conta.isPresent()) {
+            if (conta.get().sacar(valor) == true)
+            	System.out.println("Seu saque foi efetuado com sucesso!");
+        }else {
+            System.out.println("A Conta número: " + numero + " não foi encontrada!");
+        }
+    	
     }
 
     @Override
     public void depositar(int numero, float valor) {
+    	
+    	Optional<Conta> conta = buscarNaCollection(numero);
+
+        if (conta.isPresent()) {
+            conta.get().depositar(valor);
+            	System.out.println("Seu depósito foi efetuado com sucesso!");
+        }else {
+            System.out.println("A Conta número: " + numero + " não foi encontrada!");
+        }
+    	
 
     }
 
     @Override
     public void transferir(int numero, int numeroDestino, float valor) {
 
+    	var contaOrigem = buscarNaCollection(numero);
+    	var contaDestino = buscarNaCollection(numeroDestino);
+    	
+    	if (contaOrigem.isPresent() && contaDestino.isPresent()) {
+            if(contaOrigem.get().sacar(valor) == true)
+    		contaDestino.get().depositar(valor);
+            	System.out.println("Sua transferência foi efetuado com sucesso!");
+        
+    	}else {
+            System.out.println("A Conta de Orgeim e/ou Destino não foram encontradas!");
+        }
+    	
     }
 
     public int gerarNumero() {
-        return listaContas.size() + 1;
+    	if (listaContas.size() == 0 ) {
+    		return numero;
+    	}else {
+    		numero ++;
+    		return numero;
+    	}
+        
     }
 
-    public Conta buscarNaCollection(int numero) {
+    public Optional<Conta> buscarNaCollection(int numero) {
         for (var conta : listaContas) {
             if (conta.getNumero() == numero) {
-                return  conta;
+                return  Optional.ofNullable(conta);
             }
         }
-        return  null;
+        return  Optional.empty();
     }
 
     public int retornaTipo(int numero) {
